@@ -10,7 +10,7 @@
 
     <Grid>
         <Grid.Background>
-            <AcrylicBrush BackgroundSource="HostBackdrop" TintColor="Black"/>
+            <AcrylicBrush BackgroundSource="HostBackdrop" TintColor="Black" TintOpacity="0.7"/>
         </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="8*"/>
@@ -28,12 +28,12 @@
         </RelativePanel>
 
         <RelativePanel Grid.Row="2">
-            <DatePicker x:Name="DatePickerTargetDate" RelativePanel.AlignTopWithPanel="True"  RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,8,0,0"/>
-            <TextBox x:Name="TextBoxTitle" Text="" TextWrapping="Wrap" PlaceholderText="Title" RelativePanel.Below="DatePickerTargetDate" RelativePanel.AlignLeftWith="DatePickerTargetDate" RelativePanel.AlignRightWith="DatePickerTargetDate" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,8,0,0" />
+            <DatePicker x:Name="DatePickerTargetDate" RelativePanel.AlignTopWithPanel="True"  RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,8,0,0" SelectedDateChanged="DatePickerTargetDate_SelectedDateChanged"/>
+            <TextBox x:Name="TextBoxTitle" Text="" TextWrapping="Wrap" PlaceholderText="Title" RelativePanel.Below="DatePickerTargetDate" RelativePanel.AlignLeftWith="DatePickerTargetDate" RelativePanel.AlignRightWith="DatePickerTargetDate" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,8,0,0" TextChanged="TextBoxTitle_TextChanged" />
         </RelativePanel>
 
         <RelativePanel Grid.Row="3">
-            <Button x:Name="ButtonSet" Content="Set countdown and notify me" Click="ButtonSet_Click" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,0,0,0"/>
+            <Button x:Name="ButtonSet" Content="Set countdown and notify me" Click="ButtonSet_Click" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,0,0,0" Visibility="Visible" IsEnabled="False"/>
         </RelativePanel>
     </Grid>
 </Page>

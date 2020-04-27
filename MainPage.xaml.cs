@@ -40,6 +40,8 @@ namespace My_Date_Countdown
             TextBlockTitle.Text = title;
             int DateDifference = (int)(targetDate - DateTime.Today).TotalDays;
             TextBlockDays.Text = DateDifference.ToString() + " days left";
+            TextBoxTitle.Text = title;
+            DatePickerTargetDate.Date = targetDate;
         }
 
         private void LoadDataFromStorage()
@@ -91,6 +93,28 @@ namespace My_Date_Countdown
             int DateDifference = (int)(targetDate - DateTime.Today).TotalDays;
             new MyNotification(DateDifference + " days left", title).Notify();
         }
-            
+
+        private void updateButtonStatus()
+        {
+            if (DatePickerTargetDate.Date >= DateTimeOffset.Now &&
+                TextBoxTitle.Text != "")
+            {
+                ButtonSet.IsEnabled = true;
+            }
+            else
+            {
+                ButtonSet.IsEnabled = false;
+            }
+        }
+
+        private void DatePickerTargetDate_SelectedDateChanged(DatePicker sender, DatePickerSelectedValueChangedEventArgs args)
+        {
+            updateButtonStatus();
+        }
+
+        private void TextBoxTitle_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            updateButtonStatus();
+        }
     }
 }
