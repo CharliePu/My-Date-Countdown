@@ -68,12 +68,29 @@ namespace My_Date_Countdown
             storage.Store("targetDate", targetDate);
         }
 
-        private void ButtonSet_Click(object sender, RoutedEventArgs e)
+        private async void ButtonSet_Click(object sender, RoutedEventArgs e)
         {
             targetDate = DatePickerTargetDate.Date;
             title = TextBoxTitle.Text;
             SetDisplay();
             StoreData();
+            bool state = await new AppUtility().requestStartupTaskAsync("DateCountdownStartupId");
+            if (state == true)
+            {
+                new MyNotification("Success!", "Countdown " + title + " will show on startup.").Notify();
+            }
+            else
+            {
+                new MyNotification("Failed to add startup", "Make sure to enable it on Task Manager by yourself.").Notify();
+            }
         }
+
+        public void DoStartupTask()
+        {
+            LoadDataFromStorage();
+            int DateDifference = (int)(targetDate - DateTime.Today).TotalDays;
+            new MyNotification(DateDifference + " days left", title).Notify();
+        }
+            
     }
 }

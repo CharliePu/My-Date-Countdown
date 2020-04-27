@@ -96,5 +96,14 @@ namespace My_Date_Countdown
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
+
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            if (args.Kind == ActivationKind.StartupTask)
+            {
+                new MainPage().DoStartupTask();
+                Window.Current.Close();
+            }
+        }
     }
 }

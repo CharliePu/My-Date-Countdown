@@ -10,7 +10,7 @@
 
     <Grid>
         <Grid.Background>
-            <AcrylicBrush BackgroundSource="HostBackdrop" TintColor="#CC000000" TintOpacity="80"/>
+            <AcrylicBrush BackgroundSource="HostBackdrop" TintColor="Black"/>
         </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="8*"/>
@@ -33,7 +33,7 @@
         </RelativePanel>
 
         <RelativePanel Grid.Row="3">
-            <Button x:Name="ButtonSet" Content="Set countdown and notify me everyday" Click="ButtonSet_Click" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,0,0,0"/>
+            <Button x:Name="ButtonSet" Content="Set countdown and notify me" Click="ButtonSet_Click" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,0,0,0"/>
         </RelativePanel>
     </Grid>
 </Page>
