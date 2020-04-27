@@ -9,11 +9,31 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <TextBlock x:Name="TextBlockDays" HorizontalAlignment="Center" Margin="0,334,0,0" Text="0 days left" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="72" FontFamily="Segoe UI Light"/>
-        <Button x:Name="ButtonSet" Content="Set countdown and notify me daily" Click="ButtonSet_Click" Margin="0,875,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Width="400"/>
-        <DatePicker x:Name="DatePickerTargetDate" Margin="0,750,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Width="300"/>
-        <TextBox x:Name="TextBoxTitle" HorizontalAlignment="Center" Margin="0,700,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="300" PlaceholderText="Title"/>
-        <TextBlock x:Name="TextBlockTitle" HorizontalAlignment="Center" Margin="0,450,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <Grid.Background>
+            <AcrylicBrush BackgroundSource="HostBackdrop" TintColor="#CC000000" TintOpacity="80"/>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
+        <RelativePanel Grid.Row="0">
+            <TextBlock x:Name="TextBlockDays" Text="0 days left"  RelativePanel.Above="TextBlockTitle" RelativePanel.AlignHorizontalCenterWithPanel="True" FontSize="72" FontFamily="Segoe UI Light"/>
+            <TextBlock x:Name="TextBlockTitle" TextWrapping="Wrap"  RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" AutomationProperties.HelpText="" Text="Title" />
+        </RelativePanel>
+
+        <RelativePanel Grid.Row="2">
+            <DatePicker x:Name="DatePickerTargetDate" RelativePanel.AlignTopWithPanel="True"  RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,8,0,0"/>
+            <TextBox x:Name="TextBoxTitle" Text="" TextWrapping="Wrap" PlaceholderText="Title" RelativePanel.Below="DatePickerTargetDate" RelativePanel.AlignLeftWith="DatePickerTargetDate" RelativePanel.AlignRightWith="DatePickerTargetDate" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,8,0,0" />
+        </RelativePanel>
+
+        <RelativePanel Grid.Row="3">
+            <Button x:Name="ButtonSet" Content="Set countdown and notify me everyday" Click="ButtonSet_Click" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,0,0,0"/>
+        </RelativePanel>
     </Grid>
 </Page>
