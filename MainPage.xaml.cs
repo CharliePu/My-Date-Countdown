@@ -24,6 +24,7 @@ namespace My_Date_Countdown
         private DateTimeOffset targetDate;
         private string title;
         private MyStorage storage;
+        private LocaleManager localeManager;
 
         public MainPage()
         {
@@ -31,6 +32,7 @@ namespace My_Date_Countdown
 
             new AppUtility().setMinWindowSize(450, 500).setTitleBarTranslucent(true);
             storage = new MyStorage();
+            localeManager = new LocaleManager();
             LoadDataFromStorage();
             SetDisplay();
         }
@@ -39,7 +41,7 @@ namespace My_Date_Countdown
         {
             TextBlockTitle.Text = title;
             int DateDifference = (int)(targetDate - DateTime.Today).TotalDays;
-            TextBlockDays.Text = DateDifference.ToString() + " days left";
+            TextBlockDays.Text = localeManager.GetString("DaysLeft/Text", DateDifference.ToString());
             TextBoxTitle.Text = title;
             DatePickerTargetDate.Date = targetDate;
         }
@@ -76,14 +78,19 @@ namespace My_Date_Countdown
             title = TextBoxTitle.Text;
             SetDisplay();
             StoreData();
+
             bool state = await new AppUtility().requestStartupTaskAsync("DateCountdownStartupId");
             if (state == true)
             {
-                new MyNotification("Success!", "Countdown " + title + " will show on startup.").Notify();
+                new MyNotification(
+                    localeManager.GetString("SuccessNotification/Title"),
+                    localeManager.GetString("SuccessNotification/Content", title)).Notify();
             }
             else
             {
-                new MyNotification("Failed to add startup", "Make sure to enable it on Task Manager by yourself.").Notify();
+                new MyNotification(
+                localeManager.GetString("FailedNotification/Title"),
+                localeManager.GetString("FailedNotification/Content")).Notify();
             }
         }
 
@@ -91,7 +98,10 @@ namespace My_Date_Countdown
         {
             LoadDataFromStorage();
             int DateDifference = (int)(targetDate - DateTime.Today).TotalDays;
-            new MyNotification(DateDifference + " days left", title).Notify();
+
+            new MyNotification(
+                localeManager.GetString("DaysLeft/Text", DateDifference.ToString()), 
+                title).Notify();
         }
 
         private void updateButtonStatus()

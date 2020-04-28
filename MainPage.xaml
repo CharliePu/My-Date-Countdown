@@ -8,10 +8,7 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
-        <Grid.Background>
-            <AcrylicBrush BackgroundSource="HostBackdrop" TintColor="Black" TintOpacity="0.7"/>
-        </Grid.Background>
+    <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="8*"/>
             <RowDefinition Height="2*"/>
@@ -23,17 +20,17 @@
         </Grid.ColumnDefinitions>
 
         <RelativePanel Grid.Row="0">
-            <TextBlock x:Name="TextBlockDays" Text="0 days left"  RelativePanel.Above="TextBlockTitle" RelativePanel.AlignHorizontalCenterWithPanel="True" FontSize="72" FontFamily="Segoe UI Light"/>
-            <TextBlock x:Name="TextBlockTitle" TextWrapping="Wrap"  RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" AutomationProperties.HelpText="" Text="Title" />
+            <TextBlock x:Name="TextBlockDays" x:Uid="DaysLeft"  RelativePanel.Above="TextBlockTitle" RelativePanel.AlignHorizontalCenterWithPanel="True" FontSize="72" FontFamily="Segoe UI Light"/>
+            <TextBlock x:Name="TextBlockTitle" TextWrapping="Wrap"  RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" AutomationProperties.HelpText="" />
         </RelativePanel>
 
         <RelativePanel Grid.Row="2">
             <DatePicker x:Name="DatePickerTargetDate" RelativePanel.AlignTopWithPanel="True"  RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,8,0,0" SelectedDateChanged="DatePickerTargetDate_SelectedDateChanged"/>
-            <TextBox x:Name="TextBoxTitle" Text="" TextWrapping="Wrap" PlaceholderText="Title" RelativePanel.Below="DatePickerTargetDate" RelativePanel.AlignLeftWith="DatePickerTargetDate" RelativePanel.AlignRightWith="DatePickerTargetDate" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,8,0,0" TextChanged="TextBoxTitle_TextChanged" />
+            <TextBox x:Name="TextBoxTitle" x:Uid="Title" TextWrapping="Wrap" RelativePanel.Below="DatePickerTargetDate" RelativePanel.AlignLeftWith="DatePickerTargetDate" RelativePanel.AlignRightWith="DatePickerTargetDate" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,8,0,0" TextChanged="TextBoxTitle_TextChanged" />
         </RelativePanel>
 
         <RelativePanel Grid.Row="3">
-            <Button x:Name="ButtonSet" Content="Set countdown and notify me" Click="ButtonSet_Click" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,0,0,0" Visibility="Visible" IsEnabled="False"/>
+            <Button x:Name="ButtonSet" x:Uid="ButtonSet" Click="ButtonSet_Click" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,0,0,0" Visibility="Visible" IsEnabled="False"/>
         </RelativePanel>
     </Grid>
 </Page>
