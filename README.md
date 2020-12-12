@@ -10,5 +10,5 @@ Set up the date, type in the event name then press the "setcountdown and notify 
 
 ## Screenshots
 
-![Light theme/Chinese](./screenshots/1.PNG)
-![Dark theme/English](./screenshots/2.PNG)
+![Light theme/Chinese](./Screenshots/1.PNG)
+![Dark theme/English](./Screenshots/2.PNG)
