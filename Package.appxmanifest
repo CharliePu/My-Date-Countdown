@@ -10,9 +10,9 @@
   <Identity
     Name="43217CharliePu.51462B1C4E466"
     Publisher="CN=8CE3103C-B6FE-4AED-B5B2-F07348E77E01"
-    Version="1.0.0.0" />
+    Version="0.0.1.0" />
 
-  <mp:PhoneIdentity PhoneProductId="9e0c5960-4351-4bc2-840e-1e615734c9d3" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="5da38d43-77be-4d94-9cd5-87889252d818" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>日期倒计时</DisplayName>
@@ -41,10 +41,10 @@
         </uap5:Extension>
       </Extensions>
       <uap:VisualElements
-        DisplayName="日期倒计时"
+        DisplayName="Date Countdown"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="极简日期倒计时UWP。采用Fluent Design，中英双语支持。"
+        Description="My Date Countdown"
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png" ShortName="Countdown">
           <uap:ShowNameOnTiles>
@@ -54,7 +54,6 @@
           </uap:ShowNameOnTiles>
         </uap:DefaultTile >
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
-        <uap:LockScreen BadgeLogo="Assets\BadgeLogo.png" Notification="badge"/>
       </uap:VisualElements>
     </Application>
   </Applications>
