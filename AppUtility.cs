@@ -41,8 +41,15 @@ namespace My_Date_Countdown
         public async Task<bool> requestStartupTaskAsync(string startupId)
         {
             StartupTask startupTask = await StartupTask.GetAsync(startupId);
-
-            return startupTask.State == StartupTaskState.Enabled;
+            if (startupTask.State != StartupTaskState.Enabled)
+            {
+                await startupTask.RequestEnableAsync();
+                if (startupTask.State != StartupTaskState.Enabled)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

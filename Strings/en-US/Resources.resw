@@ -125,7 +125,7 @@
     <comment>Aware the space at the beginning</comment>
   </data>
   <data name="FailedNotification.Content" xml:space="preserve">
-    <value>Please make sure to enable it on Task Manager by yourself</value>
+    <value>Please enable it manually on Task Manager</value>
   </data>
   <data name="FailedNotification.Title" xml:space="preserve">
     <value>Failed to add countdown to startup</value>

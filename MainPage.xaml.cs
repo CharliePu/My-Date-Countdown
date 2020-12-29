@@ -39,11 +39,14 @@ namespace My_Date_Countdown
 
         private void SetDisplay()
         {
-            TextBlockTitle.Text = title;
             int DateDifference = (int)(targetDate - DateTime.Today).TotalDays;
+
+            TextBlockTitle.Text = title;
             TextBlockDays.Text = localeManager.GetString("DaysLeft/Text", DateDifference.ToString());
             TextBoxTitle.Text = title;
             DatePickerTargetDate.Date = targetDate;
+
+            UpdateButtonStatus();
         }
 
         private void LoadDataFromStorage()
@@ -79,12 +82,12 @@ namespace My_Date_Countdown
             SetDisplay();
             StoreData();
 
-            bool state = await new AppUtility().requestStartupTaskAsync("DateCountdownStartupId");
-            if (state == true)
+            bool isStartupEnabled = await new AppUtility().requestStartupTaskAsync("DateCountdownStartupId");
+            if (isStartupEnabled)
             {
                 new MyNotification(
-                    localeManager.GetString("SuccessNotification/Title"),
-                    localeManager.GetString("SuccessNotification/Content", title)).Notify();
+                localeManager.GetString("SuccessNotification/Title"),
+                localeManager.GetString("SuccessNotification/Content", title)).Notify();
             }
             else
             {
@@ -97,34 +100,36 @@ namespace My_Date_Countdown
         public void DoStartupTask()
         {
             LoadDataFromStorage();
+            Notify();
+        }
+
+        private void Notify()
+        {
             int DateDifference = (int)(targetDate - DateTime.Today).TotalDays;
 
             new MyNotification(
-                localeManager.GetString("DaysLeft/Text", DateDifference.ToString()), 
+                localeManager.GetString("DaysLeft/Text", DateDifference.ToString()),
                 title).Notify();
         }
 
-        private void updateButtonStatus()
+        private void UpdateButtonStatus()
         {
-            if (DatePickerTargetDate.Date >= DateTimeOffset.Now &&
-                TextBoxTitle.Text != "")
+            bool state;
+            if (state = DatePickerTargetDate.Date != targetDate || TextBoxTitle.Text != title)
             {
-                ButtonSet.IsEnabled = true;
+                state = DatePickerTargetDate.Date >= DateTimeOffset.Now && TextBoxTitle.Text != "";
             }
-            else
-            {
-                ButtonSet.IsEnabled = false;
-            }
+            ButtonSet.IsEnabled = state; 
         }
 
         private void DatePickerTargetDate_SelectedDateChanged(DatePicker sender, DatePickerSelectedValueChangedEventArgs args)
         {
-            updateButtonStatus();
+            UpdateButtonStatus();
         }
 
         private void TextBoxTitle_TextChanged(object sender, TextChangedEventArgs e)
         {
-            updateButtonStatus();
+            UpdateButtonStatus();
         }
     }
 }
