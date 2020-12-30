@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AppName" xml:space="preserve">
+    <value>Date Countdown</value>
+  </data>
+  <data name="AppTile" xml:space="preserve">
+    <value>Countdown</value>
+  </data>
   <data name="ButtonSet.Content" xml:space="preserve">
     <value>Save countdown</value>
   </data>
@@ -131,13 +137,12 @@
     <value>Failed to add countdown to startup</value>
   </data>
   <data name="SuccessNotification.Content" xml:space="preserve">
-    <value>Countdown "{0:title}" will show on startup</value>
+    <value>{0:title}</value>
   </data>
   <data name="SuccessNotification.Title" xml:space="preserve">
-    <value>Success!</value>
+    <value>Countdown saved</value>
   </data>
   <data name="Title.PlaceholderText" xml:space="preserve">
     <value>Type a title</value>
-    <comment>Meaning can be adjusted in different languages</comment>
   </data>
 </root>

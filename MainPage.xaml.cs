@@ -25,6 +25,7 @@ namespace My_Date_Countdown
         private string title;
         private MyStorage storage;
         private LocaleManager localeManager;
+        private int DateDifference;
 
         public MainPage()
         {
@@ -39,7 +40,7 @@ namespace My_Date_Countdown
 
         private void SetDisplay()
         {
-            int DateDifference = (int)(targetDate - DateTime.Today).TotalDays;
+            DateDifference = (int)(targetDate - DateTime.Today).TotalDays;
 
             TextBlockTitle.Text = title;
             TextBlockDays.Text = localeManager.GetString("DaysLeft/Text", DateDifference.ToString());
@@ -88,30 +89,34 @@ namespace My_Date_Countdown
             {
                 new MyNotification(
                 localeManager.GetString("SuccessNotification/Title"),
-                localeManager.GetString("SuccessNotification/Content", title)).Notify();
+                localeManager.GetString("SuccessNotification/Content", title)).ToastNotify();
+
+                new MyNotification(
+                    localeManager.GetString("DaysLeft/Text", DateDifference.ToString()),
+                    title).TileNotify();
             }
             else
             {
                 new MyNotification(
                 localeManager.GetString("FailedNotification/Title"),
-                localeManager.GetString("FailedNotification/Content")).Notify();
+                localeManager.GetString("FailedNotification/Content")).ToastNotify();
             }
         }
 
         public void DoStartupTask()
         {
             LoadDataFromStorage();
+            DateDifference = (int)(targetDate - DateTime.Today).TotalDays;
             Notify();
         }
 
         private void Notify()
         {
-            int DateDifference = (int)(targetDate - DateTime.Today).TotalDays;
-
             new MyNotification(
                 localeManager.GetString("DaysLeft/Text", DateDifference.ToString()),
-                title).Notify();
+                title).ToastNotify().TileNotify();
         }
+
 
         private void UpdateButtonStatus()
         {
