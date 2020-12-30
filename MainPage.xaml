@@ -25,7 +25,7 @@
         </RelativePanel>
 
         <RelativePanel Grid.Row="2">
-            <DatePicker x:Name="DatePickerTargetDate" RelativePanel.AlignTopWithPanel="True"  RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,8,0,0" SelectedDateChanged="DatePickerTargetDate_SelectedDateChanged"/>
+            <CalendarDatePicker x:Name="DatePickerTargetDate" RelativePanel.AlignTopWithPanel="True"  RelativePanel.AlignHorizontalCenterWithPanel="True" Width="340" DateChanged="DatePickerTargetDate_SelectedDateChanged"/>
             <TextBox x:Name="TextBoxTitle" x:Uid="Title" TextWrapping="Wrap" RelativePanel.Below="DatePickerTargetDate" RelativePanel.AlignLeftWith="DatePickerTargetDate" RelativePanel.AlignRightWith="DatePickerTargetDate" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,8,0,0" TextChanged="TextBoxTitle_TextChanged" />
         </RelativePanel>
 

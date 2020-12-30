@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ButtonSet.Content" xml:space="preserve">
-    <value>保存倒计时并通知我</value>
+    <value>保存倒计时</value>
   </data>
   <data name="DaysLeft.Text" xml:space="preserve">
     <value>剩余{0:days}天</value>

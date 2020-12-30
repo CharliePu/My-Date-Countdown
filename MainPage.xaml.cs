@@ -45,6 +45,7 @@ namespace My_Date_Countdown
             TextBlockDays.Text = localeManager.GetString("DaysLeft/Text", DateDifference.ToString());
             TextBoxTitle.Text = title;
             DatePickerTargetDate.Date = targetDate;
+            DatePickerTargetDate.MinDate = DateTime.Today;
 
             UpdateButtonStatus();
         }
@@ -77,7 +78,7 @@ namespace My_Date_Countdown
 
         private async void ButtonSet_Click(object sender, RoutedEventArgs e)
         {
-            targetDate = DatePickerTargetDate.Date;
+            targetDate = DatePickerTargetDate.Date ?? DateTime.Now;
             title = TextBoxTitle.Text;
             SetDisplay();
             StoreData();
@@ -122,12 +123,12 @@ namespace My_Date_Countdown
             ButtonSet.IsEnabled = state; 
         }
 
-        private void DatePickerTargetDate_SelectedDateChanged(DatePicker sender, DatePickerSelectedValueChangedEventArgs args)
+        private void TextBoxTitle_TextChanged(object sender, TextChangedEventArgs e)
         {
             UpdateButtonStatus();
         }
 
-        private void TextBoxTitle_TextChanged(object sender, TextChangedEventArgs e)
+        private void DatePickerTargetDate_SelectedDateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
             UpdateButtonStatus();
         }
