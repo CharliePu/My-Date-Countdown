@@ -30,7 +30,11 @@
         </RelativePanel>
 
         <RelativePanel Grid.Row="3">
-            <Button x:Name="ButtonSet" x:Uid="ButtonSet" Click="ButtonSet_Click" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,0,0,0" Visibility="Visible" IsEnabled="False"/>
+            <StackPanel x:Name="ToggleButtons" RelativePanel.AlignHorizontalCenterWithPanel="True" Orientation="Horizontal">
+                <TextBlock x:Name="NotifyButton" Text="&#xE91C;" TextWrapping="Wrap" FontFamily="Segoe MDL2 Assets" Margin="8,8,8,8" Tapped="NotifyButton_Tapped"/>
+                <TextBlock x:Name="TileButton" Text="&#xECA5;" TextWrapping="Wrap" FontFamily="Segoe MDL2 Assets" Margin="8,8,8,8" Tapped="TileButton_Tapped"/>
+            </StackPanel>
+            <Button x:Name="ButtonSet" x:Uid="ButtonSet" Click="ButtonSet_Click" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,8,0,0" Visibility="Visible" IsEnabled="False" RelativePanel.Below="ToggleButtons"/>
         </RelativePanel>
     </Grid>
 </Page>
