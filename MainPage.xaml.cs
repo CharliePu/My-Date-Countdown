@@ -7,6 +7,7 @@ using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
+using Windows.UI.StartScreen;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -24,8 +25,10 @@ namespace My_Date_Countdown
         private DateTimeOffset targetDate;
         private string title;
         private MyStorage storage;
+        private MyNotification notification;
         private LocaleManager localeManager;
         private int DateDifference;
+        private bool toastEnabled, tileEnabled, newToastEnabled, newTileEnabled;
 
         public MainPage()
         {
@@ -34,7 +37,9 @@ namespace My_Date_Countdown
             new AppUtility().setMinWindowSize(450, 500).setTitleBarTranslucent(true);
             storage = new MyStorage();
             localeManager = new LocaleManager();
-            LoadDataFromStorage();
+            notification = new MyNotification();
+
+            LoadData();
             SetDisplay();
         }
 
@@ -48,84 +53,108 @@ namespace My_Date_Countdown
             DatePickerTargetDate.Date = targetDate;
             DatePickerTargetDate.MinDate = DateTime.Today;
 
+            ToolTipService.SetToolTip(TileButton, 
+                new ToolTip {Content = localeManager.GetString("TileButton/Tooltip")});
+
+            ToolTipService.SetToolTip(NotifyButton,
+                new ToolTip { Content = localeManager.GetString("ToastButton/Tooltip") });
+
             UpdateButtonStatus();
         }
 
-        private void LoadDataFromStorage()
+        private void LoadData()
         {
-            if (storage.Get("title") != null)
-            {
-                title = (string)storage.Get("title");
-            }
-            else
-            {
-                title = "";
-            }
-            if (storage.Get("targetDate") != null)
-            {
-                targetDate = (DateTimeOffset)storage.Get("targetDate");
-            }
-            else
-            {
-                targetDate = DateTimeOffset.Now;
-            }
+            title = (string)(storage.Get("title") ?? "");
+            targetDate = (DateTimeOffset)(storage.Get("targetDate") ?? DateTimeOffset.Now);
+            tileEnabled = (bool) (storage.Get("tileEnabled") ?? false);
+            toastEnabled = (bool)(storage.Get("toastEnabled") ?? false);
+
+            newTileEnabled = tileEnabled;
+            newToastEnabled = toastEnabled;
         }
 
         private void StoreData()
         {
             storage.Store("title", title);
             storage.Store("targetDate", targetDate);
+            storage.Store("tileEnabled", tileEnabled);
+            storage.Store("toastEnabled", toastEnabled);
         }
 
         private async void ButtonSet_Click(object sender, RoutedEventArgs e)
         {
             targetDate = DatePickerTargetDate.Date ?? DateTime.Now;
             title = TextBoxTitle.Text;
+            tileEnabled = newTileEnabled;
+            toastEnabled = newToastEnabled;
             SetDisplay();
             StoreData();
 
-            bool isStartupEnabled = await new AppUtility().requestStartupTaskAsync("DateCountdownStartupId");
-            if (isStartupEnabled)
+            if (tileEnabled && await notification.CheckToastPermission())
             {
-                new MyNotification(
-                localeManager.GetString("SuccessNotification/Title"),
-                localeManager.GetString("SuccessNotification/Content", title)).ToastNotify();
-
-                new MyNotification(
+                if (!await notification.CheckTileExist())
+                {
+                    notification.PinTile();
+                }
+                notification.TileNotify(
                     localeManager.GetString("DaysLeft/Text", DateDifference.ToString()),
-                    title).TileNotify();
+                    title);
             }
             else
             {
-                new MyNotification(
-                localeManager.GetString("FailedNotification/Title"),
-                localeManager.GetString("FailedNotification/Content")).ToastNotify();
+                notification.ClearTile();
+            }
+
+            if (toastEnabled && await notification.CheckToastPermission())
+            {
+                notification.ToastNotify(
+                localeManager.GetString("SuccessNotification/Title"),
+                localeManager.GetString("SuccessNotification/Content", title));
+            }
+            else
+            {
+                if (toastEnabled)
+                {
+                    newToastEnabled = false;
+                    toastEnabled = false;
+                    UpdateButtonStatus();
+                    notification.ToastNotify(
+                    localeManager.GetString("CreateStartupTaskFailedNotification/Title"),
+                    localeManager.GetString("CreateStartupTaskFailedNotification/Content"));
+                }
             }
         }
 
         public void DoStartupTask()
         {
-            LoadDataFromStorage();
+            LoadData();
             DateDifference = (int)(targetDate - DateTime.Today).TotalDays;
-            Notify();
-        }
-
-        private void Notify()
-        {
-            new MyNotification(
-                localeManager.GetString("DaysLeft/Text", DateDifference.ToString()),
-                title).ToastNotify().TileNotify();
+            if (toastEnabled)
+            {
+                notification.ToastNotify(localeManager.GetString("DaysLeft/Text", DateDifference.ToString()), title);
+            }
+            if (tileEnabled)
+            {
+                notification.TileNotify(localeManager.GetString("DaysLeft/Text", DateDifference.ToString()), title);
+            }
         }
 
 
         private void UpdateButtonStatus()
         {
-            bool state;
-            if (state = DatePickerTargetDate.Date != targetDate || TextBoxTitle.Text != title)
-            {
-                state = DatePickerTargetDate.Date >= DateTimeOffset.Now && TextBoxTitle.Text != "";
-            }
-            ButtonSet.IsEnabled = state; 
+            ButtonSet.IsEnabled =
+                (DatePickerTargetDate.Date != targetDate ||
+                TextBoxTitle.Text != title ||
+                tileEnabled != newTileEnabled ||
+                toastEnabled != newToastEnabled) &&
+                DatePickerTargetDate.Date >= DateTimeOffset.Now &&
+                TextBoxTitle.Text != "";
+            TileButton.Foreground = new SolidColorBrush(newTileEnabled ?
+                (Color)Application.Current.Resources["SystemBaseHighColor"] :
+                (Color)Application.Current.Resources["SystemBaseMediumLowColor"]);
+            NotifyButton.Foreground = new SolidColorBrush(newToastEnabled ? 
+                (Color)Application.Current.Resources["SystemBaseHighColor"] :
+                (Color)Application.Current.Resources["SystemBaseMediumLowColor"]);
         }
 
         private void TextBoxTitle_TextChanged(object sender, TextChangedEventArgs e)
@@ -135,6 +164,33 @@ namespace My_Date_Countdown
 
         private void DatePickerTargetDate_SelectedDateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
+            UpdateButtonStatus();
+        }
+
+        private async void TileButton_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            if (!await notification.CheckTileExist())
+            {
+                notification.PinTile();
+            }
+            newTileEnabled = !newTileEnabled;
+            UpdateButtonStatus();
+        }
+
+        private async void NotifyButton_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            if (!await notification.CheckToastPermission())
+            {
+                notification.ToastNotify(
+                localeManager.GetString("CreateStartupTaskFailedNotification/Title"),
+                localeManager.GetString("CreateStartupTaskFailedNotification/Content"));
+                newToastEnabled = false;
+                toastEnabled = false;
+            }
+            else
+            {
+                newToastEnabled = !newToastEnabled;
+            }
             UpdateButtonStatus();
         }
     }

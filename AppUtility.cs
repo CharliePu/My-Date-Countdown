@@ -17,8 +17,8 @@ namespace My_Date_Countdown
         {
             ApplicationView.GetForCurrentView().SetPreferredMinSize(
                 new Size(
-                    450,
-                    500
+                    width,
+                    height
                     )
                 );
 

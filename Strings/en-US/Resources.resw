@@ -126,15 +126,15 @@
   <data name="ButtonSet.Content" xml:space="preserve">
     <value>Save countdown</value>
   </data>
+  <data name="CreateStartupTaskFailedNotification.Content" xml:space="preserve">
+    <value>Please enable startup item at Task Manager manually</value>
+  </data>
+  <data name="CreateStartupTaskFailedNotification.Title" xml:space="preserve">
+    <value>Cannot send notification at startup</value>
+  </data>
   <data name="DaysLeft.Text" xml:space="preserve">
     <value>{0:days} days left</value>
     <comment>Aware the space at the beginning</comment>
-  </data>
-  <data name="FailedNotification.Content" xml:space="preserve">
-    <value>Please enable it manually on Task Manager</value>
-  </data>
-  <data name="FailedNotification.Title" xml:space="preserve">
-    <value>Failed to add countdown to startup</value>
   </data>
   <data name="SuccessNotification.Content" xml:space="preserve">
     <value>{0:title}</value>
@@ -142,7 +142,13 @@
   <data name="SuccessNotification.Title" xml:space="preserve">
     <value>Countdown saved</value>
   </data>
+  <data name="TileButton.Tooltip" xml:space="preserve">
+    <value>Show on tile</value>
+  </data>
   <data name="Title.PlaceholderText" xml:space="preserve">
     <value>Type a title</value>
+  </data>
+  <data name="ToastButton.Tooltip" xml:space="preserve">
+    <value>Send notificatin at startup</value>
   </data>
 </root>
